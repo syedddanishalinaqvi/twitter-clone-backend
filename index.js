@@ -2,12 +2,14 @@ import express from 'express';
 import cookieParser from 'cookie-parser'
 import cors from 'cors';
 import { connectToMongo } from './db.js';
+import dotenv from 'dotenv'
+dotenv.config();
 
 connectToMongo;
 
 const app=express();
 app.use(cors({
-        origin:'wwww.localhost:4000.com',
+        origin:process.env.ORIGIN,
         credentials:true,
 }))
 app.use(express.json({limit:"16kb"}))
@@ -18,8 +20,11 @@ app.use(cookieParser())
 
 //Routes
 import userRouter from './routes/user.route.js'
-app.use("/api/user",userRouter);
+import postRouter from './routes/post.route.js'
 
-app.listen(4000,()=>{
+app.use("/api/user",userRouter);
+app.use("/api/post",postRouter);
+
+app.listen(process.env.PORT,()=>{
     console.log("Server running");
 });

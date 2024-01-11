@@ -1,14 +1,16 @@
-const mongoose=require('mongoose');
+import mongoose from'mongoose';
 
 const PostSchema=new mongoose.Schema({
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user', 
+        required: true 
+    },
     data:{
         type:String,
         require:true,
     },
     image:{
-        type:String,
-    },
-    video:{
         type:String,
     },
     likes:{

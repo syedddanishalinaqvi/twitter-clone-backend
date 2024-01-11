@@ -1,10 +1,12 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'node:fs'
+import dotenv from 'dotenv'
+dotenv.config();
 
 cloudinary.config({
-    cloud_name: 'dbcezfmni',
-    api_key: '337992458282776',
-    api_secret: 'Hu0wp9d5E9qGo8QRec90xAMegQM'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 const uploadUsingCloudinary = async (localFilePath) => {
@@ -12,7 +14,7 @@ const uploadUsingCloudinary = async (localFilePath) => {
         if(!localFilePath) return null
         const response=await cloudinary.uploader.upload(localFilePath,
         {resource_type:"auto"});
-        console.log("File uplaoded on Cloudinary",response.url)
+        fs.unlinkSync(localFilePath);
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath); //remove the temporary file from the server
