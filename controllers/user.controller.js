@@ -1,7 +1,8 @@
+import { fstat } from "fs";
 import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadUsingCloudinary } from "../utils/cloudinary.js";
-
+import fs from 'fs'
 
 const generateAccessAndRefreshToken = async(userID) =>{
     try {
@@ -26,11 +27,13 @@ const userRegisterController = (asyncHandler(async (req, res) => {
     }
     const findUser = await User.findOne({ username, });
     if (findUser) {
+        fs.unlinkSync(req.file.path)
         res.status(200).json({
             message: "User Exist"
         })
     }
-    const avatarImageCloud = await uploadUsingCloudinary(req.file.path)
+    else{
+    const avatarImageCloud = await uploadUsingCloudinary(req.file.path);
     const user = await User.create(
         {
             username: username,
@@ -43,6 +46,7 @@ const userRegisterController = (asyncHandler(async (req, res) => {
         data: user,
         message: "Added to database",
     })
+}
 }))
 
 const userLoginController = (asyncHandler(async (req, res) => {
@@ -55,7 +59,7 @@ const userLoginController = (asyncHandler(async (req, res) => {
     else {
         const user = await User.findOne({ username, })
         if (!user) {
-            res.status(200).json({
+            res.status(404).json({
                 message: "User not found"
             })
         }
@@ -70,7 +74,7 @@ const userLoginController = (asyncHandler(async (req, res) => {
             const { AccessToken, RefreshToken,newUser } = await generateAccessAndRefreshToken(user._id);
             const options = {
                 httpOnly: true,
-                secure: true
+                secure:false,
             }
             res.status(200)
                 .cookie("accessToken", AccessToken, options)
@@ -79,6 +83,7 @@ const userLoginController = (asyncHandler(async (req, res) => {
                     data: newUser.refreshToken,
                     "refreshToken": RefreshToken,
                     "accessToken": AccessToken,
+                    message:"Logged In successfull"
                 })
             }
         }
