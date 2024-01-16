@@ -74,6 +74,35 @@ const postDeleteController = (asyncHandler(async (req, res) => {
             })
         }
     }
+}));
+
+const allPostController=(asyncHandler (async(req,res)=>{
+    const post=await Post.aggregate([
+        {
+            $lookup:{
+                from:'users',
+                localField:'userId',
+                foreignField:'_id',
+                as:'user'
+            },
+        },
+        
+            {
+                $unwind:'$user',
+            }
+        
+    ]);
+    res.status(200).json({
+        data:post,
+    })
+    
+}))
+const userPostController=(asyncHandler (async(req,res)=>{
+    const post=await Post.find(req.user._id);
+    res.status(200).json({
+        data:post,
+    })
+    
 }))
 
-export { newPostController, postDeleteController }
+export { newPostController, postDeleteController, allPostController,userPostController}
