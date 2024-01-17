@@ -75,7 +75,6 @@ const userLoginController = (asyncHandler(async (req, res) => {
             const options = {
                 httpOnly: true,
                 secure:true,
-                domain:'https://sweep-tweets.vercel.app/'
             }
             res.status(200)
                 .cookie("accessToken", AccessToken, options)
