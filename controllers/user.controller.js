@@ -44,7 +44,7 @@ const userRegisterController = (asyncHandler(async (req, res) => {
         });
     res.status(200).json({
         data: user,
-        message: "Added to database",
+        message: "Signed Up. Moving to Login",
     })
 }
 }))
@@ -112,5 +112,11 @@ const userLogoutController = (asyncHandler(async (req, res) => {
     }
 }));
 
+const getUserController=(asyncHandler(async(req,res)=>{
+    const currentUser=await User.findOne(req.user._id);
+    res.status(200).json({
+        data:currentUser,
+    })
+}))
 
-export { userRegisterController, userLoginController, userLogoutController }
+export { userRegisterController, userLoginController, userLogoutController, getUserController }
