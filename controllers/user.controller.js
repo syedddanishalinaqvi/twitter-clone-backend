@@ -75,6 +75,7 @@ const userLoginController = (asyncHandler(async (req, res) => {
             const options = {
                 httpOnly: true,
                 secure:true,
+                sameSite: 'None',
             }
             res.status(200)
                 .cookie("accessToken", AccessToken, options)
