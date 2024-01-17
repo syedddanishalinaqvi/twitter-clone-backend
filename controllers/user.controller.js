@@ -74,6 +74,8 @@ const userLoginController = (asyncHandler(async (req, res) => {
             const { AccessToken, RefreshToken,newUser } = await generateAccessAndRefreshToken(user._id);
             const options = {
                 httpOnly: true,
+                secure:true,
+                domain:'https://sweep-tweets.vercel.app/'
             }
             res.status(200)
                 .cookie("accessToken", AccessToken, options)
