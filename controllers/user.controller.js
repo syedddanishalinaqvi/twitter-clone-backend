@@ -97,7 +97,6 @@ const userLogoutController = (asyncHandler(async (req, res) => {
             {new:true});
         const options = {
             httpOnly: true,
-            secure: true
         }
         res.status(200)
             .clearCookie("accessToken", options)
