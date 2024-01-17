@@ -1,5 +1,5 @@
 import Router from "express"
-import upload  from "../middlewares/multer.middleware.js";
+import {upload}  from "../middlewares/multer.middleware.js";
 import { checkUser } from "../middlewares/auth.middleware.js";
 import { allPostController, newPostController, postDeleteController, userPostController } from "../controllers/post.controller.js";
 
