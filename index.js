@@ -9,7 +9,7 @@ connectToMongo;
 
 const app=express();
 app.use(cors({
-        origin:process.env.ORIGIN,
+        origin:'https://sweep-tweets.vercel.app',
         credentials:true,
 }))
 app.use(express.json({limit:"16kb"}))
