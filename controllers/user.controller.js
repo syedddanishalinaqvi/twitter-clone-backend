@@ -74,7 +74,6 @@ const userLoginController = (asyncHandler(async (req, res) => {
             const { AccessToken, RefreshToken,newUser } = await generateAccessAndRefreshToken(user._id);
             const options = {
                 httpOnly: true,
-                secure:true,
             }
             res.status(200)
                 .cookie("accessToken", AccessToken, options)
@@ -97,6 +96,7 @@ const userLogoutController = (asyncHandler(async (req, res) => {
             {new:true});
         const options = {
             httpOnly: true,
+
         }
         res.status(200)
             .clearCookie("accessToken", options)
