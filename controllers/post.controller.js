@@ -11,14 +11,29 @@ const addPostToUser = async (userId, postId) => {
 
 
 const newPostController = (asyncHandler(async (req, res) => {
-    const { data } = req.body;
+    const { data,image } = req.body;
     if (data === "") {
         res.status(400).json({
             message: "Enter some data",
         })
     }
     else {
-        
+        if (image) {
+            const post = await Post.create(
+                {
+                    data,
+                    image: image,
+                    userId: req.user._id
+                }
+            );
+            const { newUser } = await addPostToUser(req.user._id, post._id);
+            res.status(200).json({
+                data: newUser,
+                post,
+                message: "Post added"
+            })
+        }
+        else {
             const post = await Post.create(
                 {
                     data,
@@ -31,6 +46,7 @@ const newPostController = (asyncHandler(async (req, res) => {
                 post,
                 message: "Post added"
             })
+        }
     }
 }));
 
