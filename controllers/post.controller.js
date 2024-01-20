@@ -1,7 +1,6 @@
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadUsingCloudinary } from "../utils/cloudinary.js";
 
 const addPostToUser = async (userId, postId) => {
     const user = await User.findById(userId);
@@ -76,33 +75,33 @@ const postDeleteController = (asyncHandler(async (req, res) => {
     }
 }));
 
-const allPostController=(asyncHandler (async(req,res)=>{
-    const post=await Post.aggregate([
+const allPostController = (asyncHandler(async (req, res) => {
+    const post = await Post.aggregate([
         {
-            $lookup:{
-                from:'users',
-                localField:'userId',
-                foreignField:'_id',
-                as:'user'
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user'
             },
         },
-        
-            {
-                $unwind:'$user',
-            }
-        
+
+        {
+            $unwind: '$user',
+        }
+
     ]);
     res.status(200).json({
-        data:post,
+        data: post,
     })
-    
+
 }))
-const userPostController=(asyncHandler (async(req,res)=>{
-    const post=await Post.find(req.user._id);
+const userPostController = (asyncHandler(async (req, res) => {
+    const post = await Post.find(req.user._id);
     res.status(200).json({
-        data:post,
+        data: post,
     })
-    
+
 }))
 
-export { newPostController, postDeleteController, allPostController,userPostController}
+export { newPostController, postDeleteController, allPostController, userPostController }

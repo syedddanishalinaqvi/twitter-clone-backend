@@ -2,9 +2,6 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
 
-const AccessSecret = "danish";
-const RefreshSecret = "sydan";
-
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,

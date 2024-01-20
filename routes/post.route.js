@@ -6,7 +6,7 @@ import { allPostController, newPostController, postDeleteController, userPostCon
 const router=Router();
 
 //secured Routes
-router.route("/add-post").post(checkUser,upload.single('image'),newPostController);
+router.route("/add-post").post(checkUser,newPostController);
 
 router.route("/delete-post/:id").delete(checkUser,postDeleteController);
 

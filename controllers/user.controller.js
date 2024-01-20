@@ -1,8 +1,5 @@
-import { fstat } from "fs";
 import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadUsingCloudinary } from "../utils/cloudinary.js";
-import fs from 'fs'
 
 const generateAccessAndRefreshToken = async(userID) =>{
     try {
@@ -19,21 +16,19 @@ const generateAccessAndRefreshToken = async(userID) =>{
 
 
 const userRegisterController = (asyncHandler(async (req, res) => {
-    const { username, password, email, name } = req.body;
-    if ([username, password, email, name].some((field) => field?.trim() === "")) {
+    const { username, password, email, name,avatar } = req.body;
+    if ([username, password, email, name, avatar].some((field) => field?.trim() === "")) {
         res.status(400).json({
             message: "Field input is empty",
         })
     }
     const findUser = await User.findOne({ username, });
     if (findUser) {
-        fs.unlinkSync(req.file.path)
         res.status(200).json({
             message: "User Exist"
         })
     }
     else{
-    const avatarImageCloud = await uploadUsingCloudinary(req.file.path);
     const user = await User.create(
         {
             username: username,

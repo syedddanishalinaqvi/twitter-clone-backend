@@ -5,7 +5,7 @@ import { checkUser } from "../middlewares/auth.middleware.js";
 
 const router=Router();
 
-router.route("/register").post(upload.single('avatar'),userRegisterController);
+router.route("/register").post(userRegisterController);
 
 router.route("/login").post(userLoginController);
 
