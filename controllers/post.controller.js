@@ -18,23 +18,7 @@ const newPostController = (asyncHandler(async (req, res) => {
         })
     }
     else {
-        if (req.file?.path) {
-            const imageUrl = await uploadUsingCloudinary(req.file?.path);
-            const post = await Post.create(
-                {
-                    data,
-                    image: imageUrl.url,
-                    userId: req.user._id
-                }
-            );
-            const { newUser } = await addPostToUser(req.user._id, post._id);
-            res.status(200).json({
-                data: newUser,
-                post,
-                message: "Post added"
-            })
-        }
-        else {
+        
             const post = await Post.create(
                 {
                     data,
@@ -47,7 +31,6 @@ const newPostController = (asyncHandler(async (req, res) => {
                 post,
                 message: "Post added"
             })
-        }
     }
 }));
 
