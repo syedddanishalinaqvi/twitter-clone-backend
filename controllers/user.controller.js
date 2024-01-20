@@ -35,7 +35,7 @@ const userRegisterController = (asyncHandler(async (req, res) => {
             password: password,
             email: email,
             name: name,
-            avatar: avatarImageCloud.url
+            avatar: avatar
         });
     res.status(200).json({
         data: user,
