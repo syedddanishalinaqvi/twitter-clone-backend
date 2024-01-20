@@ -16,8 +16,8 @@ const generateAccessAndRefreshToken = async(userID) =>{
 
 
 const userRegisterController = (asyncHandler(async (req, res) => {
-    const { username, password, email, name,avatar } = req.body;
-    if ([username, password, email, name, avatar].some((field) => field?.trim() === "")) {
+    const { username, password, email, name, avatar } = req.body;
+    if ([username, password, email, name].some((field) => field?.trim() === "")) {
         res.status(400).json({
             message: "Field input is empty",
         })
